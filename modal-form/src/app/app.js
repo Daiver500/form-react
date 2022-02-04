@@ -1,15 +1,19 @@
 import './app.scss';
 import SubmitForm from "../modal-form/modal-form"
-import SubmitSuccess from '../modal-success/modal-success';
 import {Fragment} from "react"
+import {Component} from "react"
 
-function App() {
+class App extends Component {
+  
+
+  render() {
   return (
     <Fragment>
       <SubmitForm></SubmitForm>
-      <SubmitSuccess></SubmitSuccess>
     </Fragment>
   );
 }
+}
 
 export default App;
+

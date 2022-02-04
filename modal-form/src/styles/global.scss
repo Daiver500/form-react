@@ -50,7 +50,7 @@ body {
   flex-grow: 1;
 }
 
-.page__button {
+.main__button {
   font-family: "PTMono", "Arial", sans-serif;
   font-weight: 400;
   font-size: 14px;
@@ -62,11 +62,11 @@ body {
   border-radius: 10px;
   padding: 14px 45px;
   cursor: pointer;
-  margin-bottom: 34px;
+  position: relative;
 }
 
-.page__button:hover,
-.page__button:focus {
+.main__button:hover,
+.main__button:focus {
   background-color: $white;
   color: $black;
   border: 1px solid $black;

@@ -1,4 +1,5 @@
 import { Component } from 'react';
+import logo from "../img/logo.png"
 import './modal-form.scss';
 class SubmitForm extends Component {
   constructor(props) {
@@ -7,15 +8,15 @@ class SubmitForm extends Component {
         name: "",
         phone: "",
         email: "",
-        data: [
-          {name: "Alex" , phone: "+79111234567", email: "email@test.ru", id: 1},    
-          {name: "Ivan" , salary: "+79111234567", email: "email@test.ru", id: 2},
-          {name: "Petr" , salary: "+79111234567", email: "email@test.ru", id: 3}
-        ],
-        hidden: "false",
-        classNames: "modal__inner"
+        data: [],
+        classNames: "modal__inner",
+        classNamesSuccess: "modal__inner hidden",
+        button: "main__button hidden",
+        hidden: false
       }
       this.maxId = 4;
+      this.title = "Заявка отправлена!"
+      this.text = "Менеджер уже звонит, посмотрите на телефон."
     }
 
       onValueChange = (evt) => {
@@ -49,20 +50,49 @@ class SubmitForm extends Component {
           name: "",
           phone: "",
           email: "",
-          classNames:  "modal__inner hidden"
+          classNames:  "modal__inner hidden",
+          classNamesSuccess:  "modal__inner",
+          hidden: true
       })
     }
-      
-    
-   
-     render () {
-        const {name, phone, email, classNames} = this.state
-                        
+
+    openModal = () => {
+      this.setState({
+        classNames:  "modal__inner",
+        button: "main__button hidden",
+      })
+    }
+
+    modalCloseButtonClick = () => {
+      this.setState({
+        classNames:  "modal__inner hidden",
+        classNamesSuccess:  "modal__inner hidden",
+        button: "main__button",
+        hidden: true
+    })
+    }
+
+    successModalClose = () => {
+      this.setState({
+        classNames:  "modal__inner",
+        classNamesSuccess:  "modal__inner hidden",
+      })
+    }
+
+    render () {
+        const {name, phone, email, classNames, classNamesSuccess, button} = this.state
+        const {hidden} = this.state
+                                       
         return (
-          <div className={classNames}>
+          <div>
+              <div className="main__inner container">
+                <button className={button} onClick={this.openModal} type="button">Заказать звонок</button>
+              </div>
+
+          <div className={classNames} hidden={hidden}>
             <form className="modal__form" action="https://echo.htmlacademy.ru/" method="post"  onSubmit = {this.onSubmit}>
               <div className="modal__data">
-                <button className="modal__close" type="button" aria-label="Закрыть модальное окно">
+                <button className="modal__close" type="button" aria-label="Закрыть модальное окно" onClick={this.modalCloseButtonClick}>
                 <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path fillRule="evenodd" clipRule="evenodd"
                 d="M0.146522 0.853553C-0.04874 0.658291 -0.04874 0.341709 0.146522 0.146447C0.341784 -0.0488155 0.658367 -0.0488156 0.853629 0.146447L8.27821 7.57103L15.7028 0.14645C15.8981 -0.0488124 16.2146 -0.0488125 16.4099 0.14645C16.6052 0.341712 16.6052 0.658294 16.4099 0.853556L8.98532 8.27814L16.41 15.7028C16.6052 15.8981 16.6052 16.2146 16.41 16.4099C16.2147 16.6052 15.8981 16.6052 15.7029 16.4099L8.27821 8.98525L0.853553 16.4099C0.658291 16.6052 0.341709 16.6052 0.146447 16.4099C-0.0488155 16.2146 -0.0488156 15.8981 0.146447 15.7028L7.57111 8.27814L0.146522 0.853553Z"
@@ -88,10 +118,30 @@ class SubmitForm extends Component {
               </div>
             </form>
          </div>
+
+         <div className={classNamesSuccess} hidden={hidden}>
+            <div className="modal-success__title">
+            <img className="modal-success__image" src={logo} alt="лого"/>
+            <p className="modal-success__text">{this.title}</p>
+            <p className="modal-success__text">{this.text}</p>
+         </div>
+         <button className="modal-success__close" type="button" aria-label="Закрыть модальное окно" onClick={this.successModalClose}>
+           <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+             <path fillRule="evenodd" clipRule="evenodd"
+             d="M0.146522 0.853553C-0.04874 0.658291 -0.04874 0.341709 0.146522 0.146447C0.341784 -0.0488155 0.658367 -0.0488156 0.853629 0.146447L8.27821 7.57103L15.7028 0.14645C15.8981 -0.0488124 16.2146 -0.0488125 16.4099 0.14645C16.6052 0.341712 16.6052 0.658294 16.4099 0.853556L8.98532 8.27814L16.41 15.7028C16.6052 15.8981 16.6052 16.2146 16.41 16.4099C16.2147 16.6052 15.8981 16.6052 15.7029 16.4099L8.27821 8.98525L0.853553 16.4099C0.658291 16.6052 0.341709 16.6052 0.146447 16.4099C-0.0488155 16.2146 -0.0488156 15.8981 0.146447 15.7028L7.57111 8.27814L0.146522 0.853553Z"
+             fill="black" />
+            </svg>
+          </button>
+         </div>
+
+         </div>
+         
         )
+
     }
-    
+
 }
 
 export default SubmitForm;
+
 
