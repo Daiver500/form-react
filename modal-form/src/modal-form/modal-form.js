@@ -1,69 +1,97 @@
 import { Component } from 'react';
 import './modal-form.scss';
-import "../index.scss";
-
-class EmployeesAddForm extends Component {
-    constructor(props) {
-      super(props);
+class SubmitForm extends Component {
+  constructor(props) {
+    super(props);
       this.state = {
         name: "",
-        salary: ""
+        phone: "",
+        email: "",
+        data: [
+          {name: "Alex" , phone: "+79111234567", email: "email@test.ru", id: 1},    
+          {name: "Ivan" , salary: "+79111234567", email: "email@test.ru", id: 2},
+          {name: "Petr" , salary: "+79111234567", email: "email@test.ru", id: 3}
+        ],
+        hidden: "false",
+        classNames: "modal__inner"
       }
+      this.maxId = 4;
     }
 
-    onValueChange = (evt) => {
-      this.setState({
-        [evt.target.name]: evt.target.value,          
+      onValueChange = (evt) => {
+        this.setState({
+          [evt.target.name]: evt.target.value,         
+        })
+      }
+ 
+      addItem = (name, phone, email) => {    
+      const newPerson = {
+         name,
+         phone,
+         email,
+         id: this.maxId++
+      }
+      this.setState(({data}) => {    
+        const newArray = [...data, newPerson]
+        console.log(newArray)
+        return {
+          data: newArray
+        }
       })
-    }
+      
+   }
 
-    onSubmit = (evt) => {
+   onSubmit = (evt) => {
       evt.preventDefault();
-      if (this.state.name.length < 3 || !this.state.salary) return;
-      this.props.addItem(this.state.name, this.state.salary);
+      if (this.state.name.length < 3 || !this.state.phone) return;
+      this.addItem(this.state.name, this.state.phone, this.state.email);
       this.setState({
-          name: '',
-          salary: ''
+          name: "",
+          phone: "",
+          email: "",
+          classNames:  "modal__inner hidden"
       })
-  }
-
-  static test = () => {              
-    console.log("Hello")
-  }
-
-  static logged = "on"
-
-    render () {
-        const {name,salary} = this.state
+    }
+      
+    
+   
+     render () {
+        const {name, phone, email, classNames} = this.state
+                        
         return (
-        <div className="app-employees-add-form">
-            <h3>Добавьте нового сотрудника</h3>
-            <form
-         
-                className="add-form d-flex">
-                <input type="text"
-                    className="form-control new-post-label"
-                    placeholder="Как его зовут?" 
-                    name="name"
-                    value={name}                              
-                    />
-                <input type="number"
-                    className="form-control new-post-label"
-                    placeholder="З/П в $?"
-                    name="salary"
-                    value={salary}
-                     />
-
-                <button type="submit"
-                        className="btn btn-outline-light"
-                        >Добавить</button>
+          <div className={classNames}>
+            <form className="modal__form" action="https://echo.htmlacademy.ru/" method="post"  onSubmit = {this.onSubmit}>
+              <div className="modal__data">
+                <button className="modal__close" type="button" aria-label="Закрыть модальное окно">
+                <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path fillRule="evenodd" clipRule="evenodd"
+                d="M0.146522 0.853553C-0.04874 0.658291 -0.04874 0.341709 0.146522 0.146447C0.341784 -0.0488155 0.658367 -0.0488156 0.853629 0.146447L8.27821 7.57103L15.7028 0.14645C15.8981 -0.0488124 16.2146 -0.0488125 16.4099 0.14645C16.6052 0.341712 16.6052 0.658294 16.4099 0.853556L8.98532 8.27814L16.41 15.7028C16.6052 15.8981 16.6052 16.2146 16.41 16.4099C16.2147 16.6052 15.8981 16.6052 15.7029 16.4099L8.27821 8.98525L0.853553 16.4099C0.658291 16.6052 0.341709 16.6052 0.146447 16.4099C-0.0488155 16.2146 -0.0488156 15.8981 0.146447 15.7028L7.57111 8.27814L0.146522 0.853553Z"
+                fill="black" />
+                </svg>
+                </button>
+              <h2 className="modal__header">Закажите звонок</h2>
+              <label className="modal__label"> <span className="visually-hidden">Имя</span>
+                <input className="modal__name"  type="text" id="name" name="name" placeholder="Имя*" required value={name}  onChange={this.onValueChange}/>
+              </label>
+              <label className="modal__label"> <span className="visually-hidden">Телефон</span>
+                <input className="modal__phone" type="number" name="phone" id="phone" placeholder="Номер телефона*" required value={phone}  onChange={this.onValueChange}/>
+              </label>
+              <label className="modal__label"> <span className="visually-hidden">Электронная почта</span>
+                <input className="modal__mail" type="mail" name="email" id="email" placeholder="Электронная почта"  value={email}  onChange={this.onValueChange}/>
+              </label>
+              <button className="modal__button" type="submit">Начать работу</button>
+              <div className="modal__information">
+                <p className="modal__text">Нажимая кнопку "Отправить", я даю условие на обработку персональных данных.<a
+                target="__blank" className="modal__link" href="../form__sber/test.docx" download="">Условия использования
+                данных.</a></p>
+              </div>
+              </div>
             </form>
-        </div>
+         </div>
         )
     }
     
 }
 
-
-export default EmployeesAddForm;
+export default SubmitForm;
 
