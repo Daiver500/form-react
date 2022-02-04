@@ -1,7 +1,9 @@
 import { Component } from 'react';
+import { Fragment } from 'react';
 import logo from "../img/logo.png"
 import './modal-form.scss';
 class SubmitForm extends Component {
+  
   constructor(props) {
     super(props);
       this.state = {
@@ -16,7 +18,7 @@ class SubmitForm extends Component {
       this.title = "Заявка отправлена!"
       this.text = "Менеджер уже звонит, посмотрите на телефон."
     }
-
+   
       onValueChange = (evt) => {
         this.setState({
           [evt.target.name]: evt.target.value,         
@@ -72,6 +74,20 @@ class SubmitForm extends Component {
       })
     }
 
+    modalEscPressHandler = (evt) => {
+      if (evt.key === `Escape`) {
+        this.setState({
+          hidden: false,
+          checked: false         
+        })
+        evt.preventDefault();
+      }
+    };
+
+    componentDidMount () {
+      document.addEventListener('keydown', this.modalEscPressHandler)
+  }
+
     render () {
         const {name, phone, email} = this.state
 
@@ -87,12 +103,11 @@ class SubmitForm extends Component {
         if (this.state.checked) {
           modalInner = "modal__inner hidden"
           modalSuccess = "modal-success__inner";
-          // test3 = "main__button hidden";
         }
-          
-                                       
+
+                                                
         return (
-          <div>
+          <Fragment>
               <div className="main__inner container" >
                 <button className={modalButton} onClick={this.openModal} type="button">Заказать звонок</button>
               </div>
@@ -142,7 +157,7 @@ class SubmitForm extends Component {
             </button>
          </div>
 
-         </div>
+         </Fragment>
          
         )
 
