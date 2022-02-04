@@ -85,7 +85,7 @@ class SubmitForm extends Component {
     };
 
     componentDidMount () {
-      document.addEventListener('keydown', this.modalEscPressHandler)
+      document.addEventListener("keydown", this.modalEscPressHandler)
   }
 
     render () {
